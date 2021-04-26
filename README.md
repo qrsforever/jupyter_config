@@ -1,2 +1,7 @@
-# jupyter_config
-适合自己的Notebook配置
+Jupyter Notebook Vim 配置
+
+## Files
+
+- `$(jupyter --config-dir)/nbconfig/notebook.json`
+- `$(jupyter --config-dir)/jupyter_notebook_config.json`
+- `$(jupyter --data-dir)/nbextensions/vim_binding`

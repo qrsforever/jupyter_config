@@ -1,0 +1,45 @@
+{
+  "load_extensions": {
+    "plotlywidget/extension": true,
+    "jupyter-js-widgets/extension": true,
+    "nbextensions_configurator/config_menu/main": true,
+    "contrib_nbextensions_help_item/main": true,
+    "vim_binding/vim_binding": true,
+    "execute_time/ExecuteTime": true,
+    "snippets_menu/main": true,
+    "table_beautifier/main": true,
+    "skip-traceback/main": true,
+    "toc2/main": true,
+    "hide_input/main": true,
+    "codefolding/main": false,
+    "hide_input_all/main": true,
+    "hide_header/main": true,
+    "export_embedded/main": false,
+    "splitcell/splitcell": true,
+    "freeze/main": true,
+    "latex_envs/latex_envs": false
+  },
+  "toc2": {
+    "skip_h1_title": true,
+    "toc_cell": false,
+    "title_cell": "",
+    "number_sections": true
+  },
+  "snippets": {
+    "include_custom_menu": true,
+    "custom_menu_content": "{\n  \"name\": \"ErlangAI\", \n  \"sub-menu\": [\n    {\n      \"name\": \"import %cmd\", \n      \"snippet\": [\n        \"%reload_ext watermark\", \n        \"%reload_ext autoreload\", \n        \"%autoreload 2\", \n        \"%watermark -v -p numpy,sklearn,pandas\",\n        \"%watermark -v -p cv2,PIL,matplotlib\",\n        \"%watermark -v -p torch,torchvision,torchaudio,pytorch_lightning\",\n        \"%matplotlib inline\",\n        \"%config InlineBackend.figure_format='retina'\",\n        \"%config IPCompleter.use_jedi = False\",\n        \"\",\n        \"\",\n        \"from IPython.display import display, HTML\",\n        \"display(HTML('<style>.container { width:%d%% !important; }</style>' % 90))\"\n      ]\n    }, \n    {\n      \"name\": \"import others\", \n      \"snippet\": [\n        \"from IPython.display import display, HTML\", \n        \"from graphviz import Digraph, Source\", \n        \"from torchviz import make_dot\", \n        \"from PIL import Image\", \n        \"import matplotlib.pyplot as plt\"\n      ]\n    }\n  ]\n}"
+  },
+  "Cell": {
+    "cm_config": {
+      "lineNumbers": true
+    }
+  },
+  "Notebook": {
+    "Header": false,
+    "Toolbar": true
+  },
+  "Freeze": {
+    "readonly_color": "#21d709",
+    "frozen_color": "#9320df"
+  }
+}
