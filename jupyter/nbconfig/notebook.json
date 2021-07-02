@@ -11,7 +11,7 @@
     "skip-traceback/main": true,
     "toc2/main": true,
     "hide_input/main": true,
-    "codefolding/main": false,
+    "codefolding/main": true,
     "hide_input_all/main": true,
     "hide_header/main": true,
     "export_embedded/main": false,
@@ -19,7 +19,9 @@
     "freeze/main": true,
     "latex_envs/latex_envs": false,
     "collapsible_headings/main": true,
-    "code_prettify/autopep8": true
+    "code_prettify/autopep8": true,
+    "notify/notify": false,
+    "hinterland/hinterland": true
   },
   "toc2": {
     "skip_h1_title": true,
@@ -43,5 +45,8 @@
   "Freeze": {
     "readonly_color": "#21d709",
     "frozen_color": "#9320df"
+  },
+  "notify": {
+    "sticky": false
   }
 }
