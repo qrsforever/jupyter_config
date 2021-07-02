@@ -17,7 +17,9 @@
     "export_embedded/main": false,
     "splitcell/splitcell": true,
     "freeze/main": true,
-    "latex_envs/latex_envs": false
+    "latex_envs/latex_envs": false,
+    "collapsible_headings/main": true,
+    "code_prettify/autopep8": true
   },
   "toc2": {
     "skip_h1_title": true,
