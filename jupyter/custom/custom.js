@@ -432,7 +432,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Danger',
                         'snippet': [
-							'<div class="alert alert-ganger">',
+							'<div class="alert alert-danger">',
                             '',
                             '</div>',
                         ]

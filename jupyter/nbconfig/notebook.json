@@ -73,5 +73,7 @@
   "hinterland": {
     "hint_delay": "500"
   },
-  "scrollDownIsEnabled": true
+  "scrollDownIsEnabled": true,
+  "autosavetime_show_selector": true,
+  "autosavetime_set_starting_interval": true
 }
