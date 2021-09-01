@@ -8,4 +8,4 @@ Jupyter Notebook Vim 配置
 
 ## Pip
 
-- `pip3 install autopep8`
+- `pip3 install autopep8 ipywidgets`
