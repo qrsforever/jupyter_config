@@ -355,17 +355,17 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                 'name': 'Pytorch(*)',
                 'snippet': [
 					"",
-					"###", 
-					"### Torch ###", 
-					"###", 
+					"###",
+					"### Torch ###",
+					"###",
 					"",
-					"import torch", 
-					"import torch.nn as nn", 
-					"import torch.nn.functional as F", 
-					"import torch.optim as O", 
-					"from torchvision import models as M", 
-					"from torchvision import transforms as T", 
-					"from torch.utils.data import Dataset, DataLoader", 
+					"import torch",
+					"import torch.nn as nn",
+					"import torch.nn.functional as F",
+					"import torch.optim as O",
+					"from torchvision import models as M",
+					"from torchvision import transforms as T",
+					"from torch.utils.data import Dataset, DataLoader",
 					""
                 ],
                 'sub-menu': [
@@ -380,9 +380,9 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                 'name': 'Tensorflow(*)',//{{{
                 'snippet': [
 					"",
-					"###", 
-					"### Tensorflow ###", 
-					"###", 
+					"###",
+					"### Tensorflow ###",
+					"###",
 					"",
                     "import tensorflow as tf",
 					"",
@@ -393,9 +393,9 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                 'name': 'Onnx(*)',//{{{
                 'snippet': [
                     "",
-					"###", 
-					"### Onnx ###", 
-					"###", 
+					"###",
+					"### Onnx ###",
+					"###",
 					"",
 					"import onnx",
 					"import onnx.helper as OH",
@@ -406,10 +406,55 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
         ],
     };//}}}
 
+    var markdown = {//{{{
+        'name' : 'Markdown',
+        'sub-menu-direction': 'left',
+        'sub-menu' : [
+            {
+                'name': 'Alert',//{{{
+                'sub-menu': [
+                    {
+                        'name': 'Info',
+                        'snippet': [
+							'<div class="alert alert-info">',
+                            '',
+                            '</div>',
+                        ]
+                    },
+                    {
+                        'name': 'Warning',
+                        'snippet': [
+							'<div class="alert alert-warning">',
+                            '',
+                            '</div>',
+                        ]
+                    },
+                    {
+                        'name': 'Danger',
+                        'snippet': [
+							'<div class="alert alert-ganger">',
+                            '',
+                            '</div>',
+                        ]
+                    },
+                    {
+                        'name': 'Success',
+                        'snippet': [
+							'<div class="alert alert-success">',
+                            '',
+                            '</div>',
+                        ]
+                    },
+                ]//}}}
+            },
+        ]
+    };//}}}
+
     snippets_menu.options['menus'].push(snippets_menu.default_menus[0]);
     snippets_menu.options['menus'].push(magics);
     snippets_menu.options['menus'].push(utils);
     snippets_menu.options['menus'].push(erlangai);
+    snippets_menu.options['menus'].push(markdown);
     // console.log(snippets_menu)
     console.log('Loaded `snippets_menu` customizations from `custom.js`');
 });
