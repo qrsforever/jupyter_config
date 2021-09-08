@@ -114,7 +114,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                     "@register_line_magic",
                                     "def netron(line):",
                                     "    args = line.split()",
-                                    "    logdir, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
+                                    "    file, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
                                     "    # res = !lsof -i:$port | grep $port",
                                     "    # if len(res) == 1:",
                                     "    #     pid = int(res[0].split(' ')[1])",
