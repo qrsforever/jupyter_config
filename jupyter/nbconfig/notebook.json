@@ -27,7 +27,10 @@
     "scroll_down/main": true,
     "ruler/main": false,
     "zenmode/main": false,
-    "keyboard_shortcut_editor/main": true
+    "keyboard_shortcut_editor/main": true,
+    "navigation-hotkeys/main": false,
+    "python-markdown/main": true,
+    "autoscroll/main": true
   },
   "toc2": {
     "skip_h1_title": true,
@@ -52,7 +55,8 @@
       "markdown": false
     },
     "top_level_submenu_goes_left": true,
-    "insert_as_new_cell": true
+    "insert_as_new_cell": false,
+    "insert_before_sibling": false
   },
   "Cell": {
     "cm_config": {
@@ -73,8 +77,8 @@
   "hinterland": {
     "hint_delay": "500"
   },
-  "scrollDownIsEnabled": true,
-  "autosavetime_show_selector": true,
+  "scrollDownIsEnabled": false,
+  "autosavetime_show_selector": false,
   "autosavetime_set_starting_interval": true,
   "keys": {
     "command": {
@@ -82,5 +86,8 @@
         "alt-m": "jupyter-notebook:toggle-menubar"
       }
     }
-  }
+  },
+  "autoscroll_show_selector": false,
+  "autoscroll_show_button": true,
+  "autosavetime_starting_interval": "3"
 }

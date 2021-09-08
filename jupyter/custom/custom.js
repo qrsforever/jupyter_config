@@ -63,7 +63,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                 'name': 'Custom Magics',//{{{
                 'sub-menu': [
                     {
-                        'name': 'Template WriteFile',
+                        'name': 'Template WriteFile',//{{{
                         'snippet': [
                             "@register_line_cell_magic",
                             "def template_writefile(line, cell):",
@@ -71,14 +71,15 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        fw.write(cell.format(**globals()))",
                             "",
                         ]
-                    },
+                    },//}}}
+                    '---',
                     {
-                        'name': 'Netron Display',
+                        'name': 'Html Display(*)',//{{{
                         'snippet': [
                             "def display_html(port, height=600):",
                             "    from IPython import display",
                             "    from html import escape as html_escape",
-                            "    frame_id = 'tensorboard-frame-{:08x}'.format(random.getrandbits(64))",
+                            "    frame_id = 'erlangai-frame-{:08x}'.format(random.getrandbits(64))",
                             "    shell = '''",
                             "      <iframe id='%HTML_ID%' width='100%' height='%HEIGHT%' frameborder='0'>",
                             "      </iframe>",
@@ -105,22 +106,60 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        shell = shell.replace(k, v)",
                             "    display.display(display.HTML(shell))",
                             "",
-                            "@register_line_magic",
-                            "def netron(line):",
-                            "    args = line.split()",
-                            "    file, port, height = args[0], int(args[1]), 600",
-                            "    if len(args) == 3:",
-                            "        height = int(args[2])",
-                            "    # res = !lsof -i:$port | grep $port",
-                            "    # if len(res) == 1:",
-                            "    #    pid = int(res[0].split(' ')[1])",
-                            "    #    !kill -9 $pid",
-                            "    import netron",
-                            "    netron.start(file, address=('0.0.0.0', port), browse=False)",
-                            "    display_html(port, height)",
-                            ""
+                        ],
+                        'sub-menu': [
+                            {
+                                'name': 'Netron Display',//{{{
+                                'snippet': [
+                                    "@register_line_magic",
+                                    "def netron(line):",
+                                    "    args = line.split()",
+                                    "    logdir, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
+                                    "    # res = !lsof -i:$port | grep $port",
+                                    "    # if len(res) == 1:",
+                                    "    #     pid = int(res[0].split(' ')[1])",
+                                    "    #     !kill -9 $pid",
+                                    "    import netron",
+                                    "    try:",
+                                    "        netron.start(file, address=('0.0.0.0', port), browse=False)",
+                                    "    except:",
+                                    "        pass",
+                                    "    display_html(port, height)",
+                                    "",
+                                ],
+                            }, //}}}
+                            {
+                                'name': 'Tensorboard Display',//{{{
+                                'snippet': [
+                                    "@register_line_magic",
+                                    "def tensorboard(line):",
+                                    "    import signal, shlex",
+                                    "    from tensorboard import manager as tbmanager",
+                                    "",
+                                    "    args = line.split()",
+                                    "    logdir, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
+                                    "    ",
+                                    "    infos = tbmanager.get_all()",
+                                    "    for info in infos:",
+                                    "        if info.port != port: continue",
+                                    "        try:",
+                                    "            os.kill(info.pid, signal.SIGKILL)",
+                                    "            os.unlink(os.path.join(tbmanager._get_info_dir(), f'pid-{info.pid}.info'))",
+                                    "        except OSError as e:",
+                                    "            if e.errno != errno.ENOENT: raise",
+                                    "        except Exception:",
+                                    "            pass",
+                                    "        break",
+                                    "",
+                                    "    strargs = f'--host 0.0.0.0 --port {port} --logdir {logdir} --reload_interval 10'",
+                                    "    command = shlex.split(strargs, comments=True, posix=True)",
+                                    "    tbmanager.start(command)",
+                                    "    display_html(port, height)",
+                                    ""
+                                ]
+                            },//}}}
                         ]
-                    },
+                    },//}}}
                 ]
             },//}}}
         ]
@@ -159,45 +198,45 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
             {
                 'name': 'Image to Base64',//{{{
                 'snippet': [
-					"def img2bytes(x, width=None, height=None):",
-					"    if isinstance(x, bytes):",
-					"        return x",
-					"",
-					"    if isinstance(x, str):",
-					"        if os.path.isfile(x):",
-					"            x = PIL.Image.open(x).convert('RGB')",
-					"        else:",
-					"            import cairosvg",
-					"            with io.BytesIO() as fw:",
-					"                cairosvg.svg2png(bytestring=x, write_to=fw,",
-					"                        output_width=width, output_height=height)",
-					"                return fw.getvalue()",
-					"",
-					"    from matplotlib.figure import Figure",
-					"    if isinstance(x, Figure):",
-					"        with io.BytesIO() as fw:",
-					"            plt.savefig(fw)",
-					"            return fw.getvalue()",
-					"",
-					"    from torch import Tensor",
-					"    from torchvision import transforms",
-					"    from PIL import Image",
-					"    if isinstance(x, Tensor):",
-					"        x = transforms.ToPILImage()(x)",
-					"    elif isinstance(x, np.ndarray):",
-					"        x = Image.fromarray(x.astype('uint8')).convert('RGB')",
-					"",
-					"    if isinstance(x, Image.Image):",
-					"        if width and height:",
-					"            x = x.resize((width, height))",
-					"        with io.BytesIO() as fw:",
-					"            x.save(fw, format='PNG')",
-					"            return fw.getvalue()",
-					"    raise NotImplementedError(type(x))",
-					"",
-					"def img2b64(x):",
-					"    return base64.b64encode(img2bytes(x)).decode()",
-					""
+                    "def img2bytes(x, width=None, height=None):",
+                    "    if isinstance(x, bytes):",
+                    "        return x",
+                    "",
+                    "    if isinstance(x, str):",
+                    "        if os.path.isfile(x):",
+                    "            x = PIL.Image.open(x).convert('RGB')",
+                    "        else:",
+                    "            import cairosvg",
+                    "            with io.BytesIO() as fw:",
+                    "                cairosvg.svg2png(bytestring=x, write_to=fw,",
+                    "                        output_width=width, output_height=height)",
+                    "                return fw.getvalue()",
+                    "",
+                    "    from matplotlib.figure import Figure",
+                    "    if isinstance(x, Figure):",
+                    "        with io.BytesIO() as fw:",
+                    "            plt.savefig(fw)",
+                    "            return fw.getvalue()",
+                    "",
+                    "    from torch import Tensor",
+                    "    from torchvision import transforms",
+                    "    from PIL import Image",
+                    "    if isinstance(x, Tensor):",
+                    "        x = transforms.ToPILImage()(x)",
+                    "    elif isinstance(x, np.ndarray):",
+                    "        x = Image.fromarray(x.astype('uint8')).convert('RGB')",
+                    "",
+                    "    if isinstance(x, Image.Image):",
+                    "        if width and height:",
+                    "            x = x.resize((width, height))",
+                    "        with io.BytesIO() as fw:",
+                    "            x.save(fw, format='PNG')",
+                    "            return fw.getvalue()",
+                    "    raise NotImplementedError(type(x))",
+                    "",
+                    "def img2b64(x):",
+                    "    return base64.b64encode(img2bytes(x)).decode()",
+                    ""
                 ]
             },//}}}
             '---',
@@ -227,26 +266,26 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Image Read',//{{{
                         'snippet': [
-							"",
-							"def im_read(url, rgb=True, size=None):",
-							"    if url.startswith('http'):",
-							"        response = requests.get(url)",
-							"        if response:",
-							"            imgmat = np.frombuffer(response.content, dtype=np.uint8)",
-							"            img = cv2.imdecode(imgmat, cv2.IMREAD_COLOR)",
-							"        else:",
-							"            return None",
-							"    else:",
-							"        img = cv2.imread(url)",
-							"        ",
-							"    if rgb:",
-							"        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)",
-							"    if size:",
-							"        if isinstance(size, int):",
-							"            size = (size, size)",
-							"        img = cv2.resize(img, size, interpolation=cv2.INTER_AREA)",
-							"    return img",
-							"",
+                            "",
+                            "def im_read(url, rgb=True, size=None):",
+                            "    if url.startswith('http'):",
+                            "        response = requests.get(url)",
+                            "        if response:",
+                            "            imgmat = np.frombuffer(response.content, dtype=np.uint8)",
+                            "            img = cv2.imdecode(imgmat, cv2.IMREAD_COLOR)",
+                            "        else:",
+                            "            return None",
+                            "    else:",
+                            "        img = cv2.imread(url)",
+                            "        ",
+                            "    if rgb:",
+                            "        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)",
+                            "    if size:",
+                            "        if isinstance(size, int):",
+                            "            size = (size, size)",
+                            "        img = cv2.resize(img, size, interpolation=cv2.INTER_AREA)",
+                            "    return img",
+                            "",
                         ]
                     },//}}}
                     {
@@ -297,7 +336,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "    else:",
                             "        mp4 = open(vidsrc, 'rb').read()",
                             "        data_url = 'data:video/mp4;base64,' + base64.b64encode(mp4).decode()",
-                            "    return HTML('<video %s %s controls src=\"%s\" type=\"video/mp4\"/>' % (W, H, data_url))",
+                            "    return HTML('<center><video %s %s controls src=\"%s\" type=\"video/mp4\"/></center>' % (W, H, data_url))",
                             "",
                         ]
                     },//}}}
@@ -338,7 +377,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        else:",
                             "            img = open(imgsrc, 'rb').read()",
                             "            data_url = 'data:image/jpg;base64,' + base64.b64encode(img).decode()",
-                            "    return HTML('<img %s %s src=\"%s\"/>' % (W, H, data_url))",
+                            "    return HTML('<center><img %s %s src=\"%s\"/></center>' % (W, H, data_url))",
                             "",
                         ]
                     },//}}}
@@ -354,19 +393,19 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
             {
                 'name': 'Pytorch(*)',
                 'snippet': [
-					"",
-					"###",
-					"### Torch ###",
-					"###",
-					"",
-					"import torch",
-					"import torch.nn as nn",
-					"import torch.nn.functional as F",
-					"import torch.optim as O",
-					"from torchvision import models as M",
-					"from torchvision import transforms as T",
-					"from torch.utils.data import Dataset, DataLoader",
-					""
+                    "",
+                    "###",
+                    "### Torch ###",
+                    "###",
+                    "",
+                    "import torch",
+                    "import torch.nn as nn",
+                    "import torch.nn.functional as F",
+                    "import torch.optim as O",
+                    "from torchvision import models as M",
+                    "from torchvision import transforms as T",
+                    "from torch.utils.data import Dataset, DataLoader",
+                    ""
                 ],
                 'sub-menu': [
                     {
@@ -379,13 +418,13 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
             {
                 'name': 'Tensorflow(*)',//{{{
                 'snippet': [
-					"",
-					"###",
-					"### Tensorflow ###",
-					"###",
-					"",
+                    "",
+                    "###",
+                    "### Tensorflow ###",
+                    "###",
+                    "",
                     "import tensorflow as tf",
-					"",
+                    "",
                 ]
             },//}}}
             '---',
@@ -393,13 +432,13 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                 'name': 'Onnx(*)',//{{{
                 'snippet': [
                     "",
-					"###",
-					"### Onnx ###",
-					"###",
-					"",
-					"import onnx",
-					"import onnx.helper as OH",
-					"import onnxruntime as rt",
+                    "###",
+                    "### Onnx ###",
+                    "###",
+                    "",
+                    "import onnx",
+                    "import onnx.helper as OH",
+                    "import onnxruntime as rt",
                     "",
                 ]
             }//}}}
@@ -416,7 +455,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Info',
                         'snippet': [
-							'<div class="alert alert-info">',
+                            '<div class="alert alert-info">',
                             '',
                             '</div>',
                         ]
@@ -424,7 +463,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Warning',
                         'snippet': [
-							'<div class="alert alert-warning">',
+                            '<div class="alert alert-warning">',
                             '',
                             '</div>',
                         ]
@@ -432,7 +471,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Danger',
                         'snippet': [
-							'<div class="alert alert-danger">',
+                            '<div class="alert alert-danger">',
                             '',
                             '</div>',
                         ]
@@ -440,7 +479,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Success',
                         'snippet': [
-							'<div class="alert alert-success">',
+                            '<div class="alert alert-success">',
                             '',
                             '</div>',
                         ]
