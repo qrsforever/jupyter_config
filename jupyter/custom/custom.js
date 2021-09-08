@@ -21,7 +21,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "",
                     "from IPython.display import display, Markdown, HTML, Image, Javascript",
                     "from IPython.core.magic import register_line_cell_magic, register_line_magic, register_cell_magic",
-                    "display(HTML('<style>.container { width:%d%% !important; }</style>' % 80))",
+                    "display(HTML('<style>.container { width:%d%% !important; }</style>' % 95))",
                     "",
                     "import sys, os, io, time, random, math",
                     "import json, base64, requests",
