@@ -1,11 +1,12 @@
 {
   "load_extensions": {
-    "plotlywidget/extension": true,
+    "jupyterlab-plotly/extension": true,
     "jupyter-js-widgets/extension": true,
     "nbextensions_configurator/config_menu/main": true,
     "contrib_nbextensions_help_item/main": true,
+    "plotlywidget/extension": true,
     "vim_binding/vim_binding": true,
-    "execute_time/ExecuteTime": false,
+    "execute_time/ExecuteTime": true,
     "snippets_menu/main": true,
     "table_beautifier/main": true,
     "skip-traceback/main": true,
@@ -30,7 +31,8 @@
     "keyboard_shortcut_editor/main": true,
     "navigation-hotkeys/main": false,
     "python-markdown/main": true,
-    "autoscroll/main": true
+    "autoscroll/main": true,
+    "printview/main": true
   },
   "toc2": {
     "skip_h1_title": true,
@@ -89,5 +91,9 @@
   },
   "autoscroll_show_selector": false,
   "autoscroll_show_button": true,
-  "autosavetime_starting_interval": "3"
+  "autosavetime_starting_interval": "3",
+  "codefolding_hotkey": "ctrl-z",
+  "collapsible_headings": {
+    "toggle_color": "#489cc7"
+  }
 }

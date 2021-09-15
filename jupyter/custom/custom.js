@@ -113,6 +113,9 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def netron(line):",
+                                    "    if line.strip() == 'help':",
+                                    "        print('%tensorboard file port [height]')",
+                                    "        return",
                                     "    args = line.split()",
                                     "    file, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
                                     "    # res = !lsof -i:$port | grep $port",
@@ -133,6 +136,9 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def tensorboard(line):",
+                                    "    if line.strip() == 'help':",
+                                    "        print('%tensorboard logdir port [height]')",
+                                    "        return",
                                     "    import signal, shlex",
                                     "    from tensorboard import manager as tbmanager",
                                     "",
