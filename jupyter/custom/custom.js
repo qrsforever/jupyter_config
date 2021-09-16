@@ -24,7 +24,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "display(HTML('<style>.container { width:%d%% !important; }</style>' % 95))",
                     "",
                     "import sys, os, io, time, random, math",
-                    "import json, base64, requests",
+                    "import json, base64, requests, shutil",
                     "import os.path as osp",
                     "import numpy as np",
                     "",
@@ -67,6 +67,9 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                         'snippet': [
                             "@register_line_cell_magic",
                             "def template_writefile(line, cell):",
+                            "    path = os.path.dirname(line)",
+                            "    if not os.path.exists(path):",
+                            "        os.makedirs(path, exist_ok=True)",
                             "    with open(line, 'w') as fw:",
                             "        fw.write(cell.format(**globals()))",
                             "",
