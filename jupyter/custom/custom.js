@@ -56,10 +56,10 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "    except:",
                     "        pass",
                     "",
-                    "def _DIR_(x):",
-                    "    print('type:', type(x))",
-                    "    sort_f = sorted if sort else list",
-                    "    return json.dumps(sort_f([y for y in dir(x) if not y.startswith('_')]))",
+				    "def _DIR_(x, dumps=True):",
+					"	 print('type:', type(x))",
+					"	 attrs = sorted([y for y in dir(x) if not y.startswith('_')])",
+					"	 return json.dumps(attrs) if dumps else attrs",
                     ""
                 ]
             },//}}}
