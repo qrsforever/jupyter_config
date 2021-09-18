@@ -57,6 +57,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "        pass",
                     "",
                     "def _DIR_(x):",
+                    "    print('type:', type(x))",
                     "    return json.dumps([y for y in dir(x) if not y.startswith('_')])",
                     ""
                 ]
