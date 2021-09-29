@@ -14,7 +14,8 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "%watermark -p numpy,sklearn,pandas",
                     "%watermark -p cv2,PIL,matplotlib",
                     "%watermark -p torch,torchvision,torchaudio",
-                    "%watermark -p tensorflow,tensorboard",
+                    "%watermark -p tensorflow,tensorboard,tflite",
+                    "%watermark -p onnx,onnxruntime,tensorrt,tvm",
                     "%matplotlib inline",
                     "%config InlineBackend.figure_format='retina'",
                     "%config IPCompleter.use_jedi = False",
@@ -28,39 +29,49 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "import os.path as osp",
                     "import numpy as np",
                     "",
-                    "def _IMPORT_(x):",
+                    "def _IMPORT(x):",
                     "    try:",
-                    "        segs = x.split(' ')",
-                    "        g = globals()",
-                    "        if 'github.com' in segs[1]:",
-                    "            uri = segs[1].replace('github.com', 'raw.githubusercontent.com')",
-                    "            mod = uri.split('/')",
-                    "            for s in ['main', 'master']:",
-                    "                uri = 'https://' + '/'.join(mod[:-1]) + '/main/' + mod[-1] + '.py'",
-                    "                x = requests.get(uri)",
-                    "                if x.status_code == 200:",
-                    "                    x = x.text",
-                    "                    break",
-                    "        elif 'gitee.com' in segs[1]:",
-                    "            mod = segs[1].split('/')",
-                    "            for s in ['/raw/main/', '/raw/master/']:",
-                    "                uri = 'https://' + '/'.join(mod[:3]) + s + '/'.join(mod[3:]) + '.py'",
-                    "                x = requests.get(uri)",
-                    "                if x.status_code == 200:",
-                    "                    x = x.text",
-                    "                    break",
-                    "        elif segs[1][0] == '/':",
-                    "            with open(segs[1] + '.py') as fr:",
+                    "        x = x.strip()",
+                    "        if x.startswith('https://'):",
+                    "            x = x[8:]",
+                    "        if not x.endswith('.py'):",
+                    "            x = x + '.py'",
+                    "        if x[0] == '/':",
+                    "            with open(x) as fr:",
                     "                x = fr.read()",
-                    "        exec(x, g)",
+                    "        else:",
+                    "            x = x.replace('blob/main/', '').replace('blob/master/', '')",
+                    "            if x.startswith('raw.githubusercontent.com'):",
+                    "                uri = 'https://' + x",
+                    "                x = requests.get(uri)",
+                    "                if x.status_code == 200:",
+                    "                    x = x.text",
+                    "            elif x.startswith('github.com'):",
+                    "                uri = x.replace('github.com', 'raw.githubusercontent.com')",
+                    "                mod = uri.split('/')",
+                    "                for s in ['main', 'master']:",
+                    "                    uri = 'https://' + '/'.join(mod[:3]) + s + '/'.join(mod[-3:])",
+                    "                    x = requests.get(uri)",
+                    "                    if x.status_code == 200:",
+                    "                        x = x.text",
+                    "                        break",
+                    "            elif x.startswith('gitee.com'):",
+                    "                mod = x.split('/')",
+                    "                for s in ['/raw/main/', '/raw/master/']:",
+                    "                    uri = 'https://' + '/'.join(mod[:3]) + s + '/'.join(mod[3:])",
+                    "                    x = requests.get(uri)",
+                    "                    if x.status_code == 200:",
+                    "                        x = x.text",
+                    "                        break",
+                    "        exec(x, globals())",
                     "    except:",
                     "        pass",
                     "",
-				    "def _DIR_(x, dumps=True):",
-					"    print('type:', type(x))",
-					"    attrs = sorted([y for y in dir(x) if not y.startswith('_')])",
-					"    return json.dumps(attrs) if dumps else attrs",
-                    ""
+                    "def _DIR(x, dumps=True):",
+                    "    attrs = sorted([y for y in dir(x) if not y.startswith('_')])",
+                    "    print('%s:' % type(x), json.dumps(attrs) if dumps else attrs)",
+                    "",
+                    "",
                 ]
             },//}}}
             '---',
@@ -77,6 +88,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        os.makedirs(path, exist_ok=True)",
                             "    with open(line, 'w') as fw:",
                             "        fw.write(cell.format(**globals()))",
+                            "",
                             "",
                         ]
                     },//}}}
@@ -114,6 +126,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        shell = shell.replace(k, v)",
                             "    display.display(display.HTML(shell))",
                             "",
+                            "",
                         ],
                         'sub-menu': [
                             {
@@ -136,6 +149,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                     "    except:",
                                     "        pass",
                                     "    display_html(port, height)",
+                                    "",
                                     "",
                                 ],
                             }, //}}}
@@ -169,6 +183,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                     "    command = shlex.split(strargs, comments=True, posix=True)",
                                     "    tbmanager.start(command)",
                                     "    display_html(port, height)",
+                                    "",
                                     ""
                                 ]
                             },//}}}
@@ -191,6 +206,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "    print('\\r', end='')",
                     "    print('Progress: {}%:'.format(x), '%s%s' % ('▋'*(x//2), '.'*((100-x)//2)), end='')",
                     "    sys.stdout.flush()",
+                    "",
                     ""
                 ]
             },//}}}
@@ -206,6 +222,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "        pass",
                     "",
                     "set_rng_seed(888)",
+                    "",
                     ""
                 ]
             },//}}}
@@ -250,6 +267,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "",
                     "def img2b64(x):",
                     "    return base64.b64encode(img2bytes(x)).decode()",
+                    "",
                     ""
                 ]
             },//}}}
@@ -275,6 +293,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                         "",
                         "plt.rcParams['figure.figsize'] = (12.0, 8.0)",
                         "",
+                        "",
                 ],
                 'sub-menu': [
                     {
@@ -299,6 +318,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "            size = (size, size)",
                             "        img = cv2.resize(img, size, interpolation=cv2.INTER_AREA)",
                             "    return img",
+                            "",
                             "",
                         ]
                     },//}}}
@@ -334,6 +354,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "            table += '|'.join([f'{col}' for col in row]) + chr(10)",
                             "    return Markdown(table)",
                             "",
+                            "",
                         ]
                     },//}}}
                     {
@@ -351,6 +372,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        mp4 = open(vidsrc, 'rb').read()",
                             "        data_url = 'data:video/mp4;base64,' + base64.b64encode(mp4).decode()",
                             "    return HTML('<center><video %s %s controls src=\"%s\" type=\"video/mp4\"/></center>' % (W, H, data_url))",
+                            "",
                             "",
                         ]
                     },//}}}
@@ -392,6 +414,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "            img = open(imgsrc, 'rb').read()",
                             "            data_url = 'data:image/jpg;base64,' + base64.b64encode(img).decode()",
                             "    return HTML('<center><img %s %s src=\"%s\"/></center>' % (W, H, data_url))",
+                            "",
                             "",
                         ]
                     },//}}}
