@@ -6,13 +6,13 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
         'sub-menu-direction': 'left',
         'sub-menu' : [
             {
-                'name': '_IMPORT_',//{{{
+                'name': '_IMPORT',//{{{
                 'snippet' : [
                     "%reload_ext watermark",
                     "%reload_ext autoreload",
                     "%autoreload 2",
                     "%watermark -p numpy,sklearn,pandas",
-                    "%watermark -p cv2,PIL,matplotlib",
+                    "%watermark -p ipywidgets,cv2,PIL,matplotlib,plotly",
                     "%watermark -p torch,torchvision,torchaudio",
                     "%watermark -p tensorflow,tensorboard,tflite",
                     "%watermark -p onnx,onnxruntime,tensorrt,tvm",
@@ -280,14 +280,14 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                         "### Display ###",
                         "###",
                         "",
-                        "_IMPORT_('import pandas as pd')",
-                        "_IMPORT_('import cv2')",
-                        "_IMPORT_('from PIL import Image')",
-                        "_IMPORT_('import matplotlib.pyplot as plt')",
-                        "_IMPORT_('import plotly')",
-                        "_IMPORT_('import plotly.graph_objects as go')",
-                        "_IMPORT_('import ipywidgets as widgets')",
-                        "_IMPORT_('from ipywidgets import interact, interactive, fixed, interact_manual')",
+                        "_IMPORT('import pandas as pd')",
+                        "_IMPORT('import cv2')",
+                        "_IMPORT('from PIL import Image')",
+                        "_IMPORT('import matplotlib.pyplot as plt')",
+                        "_IMPORT('import plotly')",
+                        "_IMPORT('import plotly.graph_objects as go')",
+                        "_IMPORT('import ipywidgets as widgets')",
+                        "_IMPORT('from ipywidgets import interact, interactive, fixed, interact_manual')",
                         "",
                         "# plotly.offline.init_notebook_mode(connected=False)",
                         "",
