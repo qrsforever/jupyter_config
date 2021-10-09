@@ -1,5 +1,28 @@
 Jupyter Notebook Vim 配置
 
+## DO
+
+```
+RUN PIP_INSTALL="pip install -U --no-cache-dir --retries 20 --timeout 120 \
+        --trusted-host pypi.tuna.tsinghua.edu.cn \
+        --index-url https://pypi.tuna.tsinghua.edu.cn/simple" && \
+    APT_INSTALL="apt-get install -y --no-install-recommends" && \
+    curl -sL https://deb.nodesource.com/setup_15.x | bash - && \
+    $APT_INSTALL jupyter-lab nodejs && \
+    $PIP_INSTALL \
+        autopep8 \
+        jupyter \
+        jupyter_contrib_nbextensions \
+        jupyter_nbextensions_configurator \
+        jupyterlab_vim \
+        && \
+    jupyter contrib nbextension install --sys-prefix && \
+    jupyter nbextensions_configurator enable && \
+    mkdir -p ${jupyter_data_dir}/nbextensions && \
+    mkdir -p ${jupyter_conf_dir}/nbconfig && \
+    jupyter notebook --generate-config -y
+```
+
 ## Files
 
 - `$(jupyter --config-dir)/nbconfig/notebook.json`
