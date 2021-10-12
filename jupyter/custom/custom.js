@@ -137,8 +137,8 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def netron(line):",
-                                    "    if line.strip() == 'help':",
-                                    "        print('%tensorboard file port [height]')",
+                                    "    if not line or line.strip() == 'help':",
+                                    "        print('%netron file port [height]')",
                                     "        return",
                                     "    args = line.split()",
                                     "    file, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
@@ -161,7 +161,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def tensorboard(line):",
-                                    "    if line.strip() == 'help':",
+                                    "    if not line or line.strip() == 'help':",
                                     "        print('%tensorboard logdir port [height]')",
                                     "        return",
                                     "    import signal, shlex",
