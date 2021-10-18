@@ -538,7 +538,28 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     {
                         'name': 'Top',
                         'snippet': [
-                            '<div style="text-align: right"/><a href="#Contents" style="color:blue;font-size:28px;text-decoration:none;">&#x1F51D;</a></div>',
+                            '<div style="text-align: right"/><a href="#Contents" style="color:blue;font-size:28px;text-decoration:none;">&#128285;</a></div>',
+                        ]
+                    },
+                    {
+                        'name': 'Link&Top',
+                        'snippet': [
+							'<div style="margin-top: 30px; width: 100%;">',
+							'	<div style="float: left;">',
+							'		<a',
+							'		   href=""',
+							'		   style="color:blue;font-size:28px;text-decoration:none;">',
+							'				&#128279;',
+							'		</a>',
+							'	</div>',
+							'	<div style="text-align: right">',
+							'		<a',
+							'		   href="#Contents"',
+							'		   style="color:blue;font-size:28px;text-decoration:none;">',
+							'			   &#128285;',
+							'		</a>',
+							'	</div>',
+							'</div>',
                         ]
                     },
                 ]//}}}
