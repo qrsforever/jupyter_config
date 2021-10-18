@@ -11,6 +11,7 @@ RUN PIP_INSTALL="pip install -U --no-cache-dir --retries 20 --timeout 120 \
     $APT_INSTALL jupyter-lab nodejs && \
     $PIP_INSTALL \
         autopep8 \
+        notebook=v6.4.4 \
         jupyter \
         jupyter_contrib_nbextensions \
         jupyter_nbextensions_configurator \

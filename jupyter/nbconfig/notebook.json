@@ -6,7 +6,7 @@
     "contrib_nbextensions_help_item/main": true,
     "plotlywidget/extension": true,
     "vim_binding/vim_binding": true,
-    "execute_time/ExecuteTime": true,
+    "execute_time/ExecuteTime": false,
     "snippets_menu/main": true,
     "table_beautifier/main": true,
     "skip-traceback/main": true,
@@ -29,7 +29,7 @@
     "ruler/main": false,
     "zenmode/main": false,
     "keyboard_shortcut_editor/main": true,
-    "navigation-hotkeys/main": false,
+    "navigation-hotkeys/main": true,
     "python-markdown/main": true,
     "autoscroll/main": true,
     "printview/main": true

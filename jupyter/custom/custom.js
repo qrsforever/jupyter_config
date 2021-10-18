@@ -526,6 +526,23 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     },
                 ]//}}}
             },
+            {
+                'name': 'Emoji',//{{{
+                'sub-menu': [
+                    {
+                        'name': 'Link',
+                        'snippet': [
+                            '<a href="">🔗</a>',
+                        ]
+                    },
+                    {
+                        'name': 'Top',
+                        'snippet': [
+                            '<a href="#Contents">🔝</a>',
+                        ]
+                    },
+                ]//}}}
+            },
         ]
     };//}}}
 
