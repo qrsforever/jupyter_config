@@ -527,39 +527,35 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                 ]//}}}
             },
             {
-                'name': 'Emoji',//{{{
+                'name': 'Emoji(*)',//{{{
+                'snippet': [
+                    '<div style="margin-top:30px; width:100%;">',
+                    '    <div style="float:left;font-size:18px;">',
+                    '        &#128279;&#128285;&#9757;',
+                    '    </div>',
+                    '</div>',
+                ],
                 'sub-menu': [
-                    {
-                        'name': 'Link',
-                        'snippet': [
-                            '<a href="" style="color:blue;font-size:28px;text-decoration:none;">&#128279;</a>',
-                        ]
-                    },
-                    {
-                        'name': 'Top',
-                        'snippet': [
-                            '<div style="text-align: right"/><a href="#Contents" style="color:blue;font-size:28px;text-decoration:none;">&#128285;</a></div>',
-                        ]
-                    },
                     {
                         'name': 'Link&Top',
                         'snippet': [
-							'<div style="margin-top: 30px; width: 100%;">',
-							'	<div style="float: left;">',
-							'		<a',
-							'		   href=""',
-							'		   style="color:blue;font-size:28px;text-decoration:none;">',
-							'				&#128279;',
-							'		</a>',
-							'	</div>',
-							'	<div style="text-align: right">',
-							'		<a',
-							'		   href="#Contents"',
-							'		   style="color:blue;font-size:28px;text-decoration:none;">',
-							'			   &#128285;',
-							'		</a>',
-							'	</div>',
-							'</div>',
+                            '<div style="margin-top:30px; width: 100%;">',
+                            '    <div style="float:left;">',
+                            '        <a',
+                            '           href=""',
+                            '           style="color:blue;font-size:28px;text-decoration:none;">',
+                            '                &#128279;',
+                            '        </a>',
+                            '    </div>',
+                            '    <div style="text-align:right">',
+                            '        <a',
+                            '           href="#Contents"',
+                            '           onclick="window.scrollTo(0, 0);"',
+                            '           style="color:blue;font-size:28px;text-decoration:none;">',
+                            '               &#128285;',
+                            '        </a>',
+                            '    </div>',
+                            '</div>',
                         ]
                     },
                 ]//}}}

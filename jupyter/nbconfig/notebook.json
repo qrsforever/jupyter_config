@@ -32,12 +32,13 @@
     "navigation-hotkeys/main": true,
     "python-markdown/main": true,
     "autoscroll/main": true,
-    "printview/main": true
+    "printview/main": true,
+    "toggle_all_line_numbers/main": true
   },
   "toc2": {
     "skip_h1_title": true,
     "toc_cell": false,
-    "title_cell": "",
+    "title_cell": "Contents",
     "number_sections": true,
     "sideBar": true
   },
