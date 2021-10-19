@@ -24,6 +24,13 @@ RUN PIP_INSTALL="pip install -U --no-cache-dir --retries 20 --timeout 120 \
     jupyter notebook --generate-config -y
 ```
 
+```
+    --volume jupyter_config/etc/netrc:/root/.netrc \
+    --volume jupyter_config/jupyter:/root/.jupyter \
+    --volume jupyter_config/local/share/jupyter:/root/.local/share/jupyter \
+```
+
+
 ## Files
 
 - `$(jupyter --config-dir)/nbconfig/notebook.json`

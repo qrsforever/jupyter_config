@@ -37,10 +37,14 @@
   },
   "toc2": {
     "skip_h1_title": true,
-    "toc_cell": false,
+    "toc_cell": true,
     "title_cell": "Contents",
     "number_sections": true,
-    "sideBar": true
+    "sideBar": true,
+    "markTocItemOnScroll": true,
+    "navigate_menu": true,
+    "collapse_to_match_collapsible_headings": false,
+    "moveMenuLeft": false
   },
   "snippets": {
     "include_custom_menu": false,
