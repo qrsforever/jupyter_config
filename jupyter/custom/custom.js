@@ -156,7 +156,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def tensorboard(line):",
-                                    "    parser = argparse.ArgumentParser(prog='netron')",
+                                    "    parser = argparse.ArgumentParser(prog='tensorboard')",
                                     "    parser.add_argument('--logdir', '-d', type=string, required=True, help='tensorboard logdir')",
                                     "    parser.add_argument('--port', '-p', type=int, required=True, help='tensorboard server port')",
                                     "    parser.add_argument('--height', type=int, default=600, help='display netron html window hight')",
