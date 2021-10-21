@@ -12,22 +12,25 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "%reload_ext autoreload",
                     "%autoreload 2",
                     "%watermark -p numpy,sklearn,pandas",
-                    "%watermark -p ipywidgets,cv2,PIL,matplotlib,plotly",
+                    "%watermark -p ipywidgets,cv2,PIL,matplotlib,plotly,netron",
                     "%watermark -p torch,torchvision,torchaudio",
                     "%watermark -p tensorflow,tensorboard,tflite",
-                    "%watermark -p onnx,onnxruntime,tensorrt,tvm",
+                    "%watermark -p onnx,tf2onnx,onnxruntime,tensorrt,tvm",
                     "%matplotlib inline",
                     "%config InlineBackend.figure_format='retina'",
                     "%config IPCompleter.use_jedi = False",
                     "",
                     "from IPython.display import display, Markdown, HTML, Image, Javascript",
                     "from IPython.core.magic import register_line_cell_magic, register_line_magic, register_cell_magic",
-                    "display(HTML('<style>.container { width:%d%% !important; }</style>' % 95))",
+                    "display(HTML('<style>.container { width:%d%% !important; }</style>' % 90))",
                     "",
                     "import sys, os, io, time, random, math",
                     "import json, base64, requests, shutil",
                     "import os.path as osp",
                     "import numpy as np",
+                    "import argparse, shlex, signal",
+                    "",
+                    "argparse.ArgumentParser.exit = lambda *arg, **kwargs: _IGNORE_",
                     "",
                     "def _IMPORT(x):",
                     "    try:",
@@ -74,7 +77,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "        return result",
                     "    print(result)",
                     "",
-                    "",
                 ]
             },//}}}
             '---',
@@ -91,7 +93,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        os.makedirs(path, exist_ok=True)",
                             "    with open(line, 'w') as fw:",
                             "        fw.write(cell.format(**globals()))",
-                            "",
                             "",
                         ]
                     },//}}}
@@ -129,7 +130,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        shell = shell.replace(k, v)",
                             "    display.display(display.HTML(shell))",
                             "",
-                            "",
                         ],
                         'sub-menu': [
                             {
@@ -137,22 +137,17 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def netron(line):",
-                                    "    if not line or line.strip() == 'help':",
-                                    "        print('%netron file port [height]')",
-                                    "        return",
-                                    "    args = line.split()",
-                                    "    file, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
-                                    "    # res = !lsof -i:$port | grep $port",
-                                    "    # if len(res) == 1:",
-                                    "    #     pid = int(res[0].split(' ')[1])",
-                                    "    #     !kill -9 $pid",
+                                    "    parser = argparse.ArgumentParser(prog='netron')",
+                                    "    parser.add_argument('--file', '-f', type=string, required=True, help='netron model file')",
+                                    "    parser.add_argument('--port', '-p', type=int, default=0, help='netron server port')",
+                                    "    parser.add_argument('--height', type=int, default=500, help='display netron html window hight')",
                                     "    import netron",
                                     "    try:",
-                                    "        netron.start(file, address=('0.0.0.0', port), browse=False)",
+                                    "        args = parser.parse_args(shlex.split(line))",
+                                    "        address = netron.start(args.file, address=('0.0.0.0', args.port), browse=False)",
+                                    "        display_html(address[1], args.height)",
                                     "    except:",
                                     "        pass",
-                                    "    display_html(port, height)",
-                                    "",
                                     "",
                                 ],
                             }, //}}}
@@ -161,15 +156,12 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                 'snippet': [
                                     "@register_line_magic",
                                     "def tensorboard(line):",
-                                    "    if not line or line.strip() == 'help':",
-                                    "        print('%tensorboard logdir port [height]')",
-                                    "        return",
-                                    "    import signal, shlex",
+                                    "    parser = argparse.ArgumentParser(prog='netron')",
+                                    "    parser.add_argument('--logdir', '-d', type=string, required=True, help='tensorboard logdir')",
+                                    "    parser.add_argument('--port', '-p', type=int, required=True, help='tensorboard server port')",
+                                    "    parser.add_argument('--height', type=int, default=600, help='display netron html window hight')",
                                     "    from tensorboard import manager as tbmanager",
                                     "",
-                                    "    args = line.split()",
-                                    "    logdir, port, height = args[0], int(args[1]), int(args[2]) if len(args) == 3 else 600",
-                                    "    ",
                                     "    infos = tbmanager.get_all()",
                                     "    for info in infos:",
                                     "        if info.port != port: continue",
@@ -182,11 +174,14 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                                     "            pass",
                                     "        break",
                                     "",
-                                    "    strargs = f'--host 0.0.0.0 --port {port} --logdir {logdir} --reload_interval 10'",
-                                    "    command = shlex.split(strargs, comments=True, posix=True)",
-                                    "    tbmanager.start(command)",
-                                    "    display_html(port, height)",
-                                    "",
+                                    "    try:",
+                                    "        args = parser.parse_args(shlex.split(line))",
+                                    "        strargs = f'--host 0.0.0.0 --port {args.port} --logdir {args.logdir} --reload_interval 10'",
+                                    "        command = shlex.split(strargs, comments=True, posix=True)",
+                                    "        tbmanager.start(command)",
+                                    "        display_html(args.port, args.height)",
+                                    "    except:",
+                                    "        pass",
                                     ""
                                 ]
                             },//}}}
@@ -209,7 +204,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "    print('\\r', end='')",
                     "    print('Progress: {}%:'.format(x), '%s%s' % ('▋'*(x//2), '.'*((100-x)//2)), end='')",
                     "    sys.stdout.flush()",
-                    "",
                     ""
                 ]
             },//}}}
@@ -225,7 +219,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "        pass",
                     "",
                     "set_rng_seed(888)",
-                    "",
                     ""
                 ]
             },//}}}
@@ -270,7 +263,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "",
                     "def img2b64(x):",
                     "    return base64.b64encode(img2bytes(x)).decode()",
-                    "",
                     ""
                 ]
             },//}}}
@@ -296,7 +288,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                         "",
                         "plt.rcParams['figure.figsize'] = (12.0, 8.0)",
                         "",
-                        "",
                 ],
                 'sub-menu': [
                     {
@@ -321,7 +312,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "            size = (size, size)",
                             "        img = cv2.resize(img, size, interpolation=cv2.INTER_AREA)",
                             "    return img",
-                            "",
                             "",
                         ]
                     },//}}}
@@ -357,7 +347,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "            table += '|'.join([f'{col}' for col in row]) + chr(10)",
                             "    return Markdown(table)",
                             "",
-                            "",
                         ]
                     },//}}}
                     {
@@ -375,7 +364,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "        mp4 = open(vidsrc, 'rb').read()",
                             "        data_url = 'data:video/mp4;base64,' + base64.b64encode(mp4).decode()",
                             "    return HTML('<center><video %s %s controls src=\"%s\" type=\"video/mp4\"/></center>' % (W, H, data_url))",
-                            "",
                             "",
                         ]
                     },//}}}
@@ -417,7 +405,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "            img = open(imgsrc, 'rb').read()",
                             "            data_url = 'data:image/jpg;base64,' + base64.b64encode(img).decode()",
                             "    return HTML('<center><img %s %s src=\"%s\"/></center>' % (W, H, data_url))",
-                            "",
                             "",
                         ]
                     },//}}}
@@ -464,6 +451,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "###",
                     "",
                     "import tensorflow as tf",
+                    "import tf2onnx",
                     "",
                 ]
             },//}}}
@@ -542,16 +530,16 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             '<div style="margin-top:30px; width: 100%;">',
                             '    <div style="float:left;">',
                             '        <a',
-                            '           href=""',
                             '           title=""',
+                            '           href=""',
                             '           style="color:blue;font-size:28px;text-decoration:none;">',
                             '                &#128279;',
                             '        </a>',
                             '    </div>',
                             '    <div style="text-align:right">',
                             '        <a',
-                            '           href="#Contents"',
                             '           title="Back to Top"',
+                            '           href="#Contents"',
                             '           onclick="window.scrollTo(0, 0);"',
                             '           style="color:blue;font-size:28px;text-decoration:none;">',
                             '               &#128285;',
@@ -565,7 +553,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
         ]
     };//}}}
 
-    snippets_menu.options['menus'].push(snippets_menu.default_menus[0]);
+    // snippets_menu.options['menus'].push(snippets_menu.default_menus[0]);
     snippets_menu.options['menus'].push(magics);
     snippets_menu.options['menus'].push(utils);
     snippets_menu.options['menus'].push(erlangai);

@@ -40,11 +40,12 @@
     "toc_cell": true,
     "title_cell": "Contents",
     "number_sections": true,
-    "sideBar": true,
+    "sideBar": false,
     "markTocItemOnScroll": true,
-    "navigate_menu": true,
-    "collapse_to_match_collapsible_headings": false,
-    "moveMenuLeft": false
+    "navigate_menu": false,
+    "collapse_to_match_collapsible_headings": true,
+    "moveMenuLeft": false,
+    "toc_window_display": true
   },
   "snippets": {
     "include_custom_menu": false,
@@ -100,5 +101,6 @@
   "codefolding_hotkey": "ctrl-z",
   "collapsible_headings": {
     "toggle_color": "#489cc7"
-  }
+  },
+  "printview_nbconvert_options": "--to html"
 }
