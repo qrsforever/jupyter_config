@@ -33,7 +33,9 @@
     "python-markdown/main": true,
     "autoscroll/main": true,
     "printview/main": true,
-    "toggle_all_line_numbers/main": true
+    "toggle_all_line_numbers/main": true,
+    "gist_it/main": true,
+    "scratchpad/main": true
   },
   "toc2": {
     "skip_h1_title": true,
@@ -102,5 +104,7 @@
   "collapsible_headings": {
     "toggle_color": "#489cc7"
   },
-  "printview_nbconvert_options": "--to html"
+  "printview_nbconvert_options": "--to html",
+  "gist_it_personal_access_token": "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",
+  "gist_it_default_to_public": true
 }
