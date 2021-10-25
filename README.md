@@ -40,3 +40,7 @@ RUN PIP_INSTALL="pip install -U --no-cache-dir --retries 20 --timeout 120 \
 ## Pip
 
 - `pip3 install autopep8 ipywidgets`
+
+## Run
+
+- jupyter notebook --no-browser --notebook-dir=/data --allow-root --ip=0.0.0.0 --port=8118
