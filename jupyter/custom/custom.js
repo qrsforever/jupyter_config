@@ -197,75 +197,95 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
         'sub-menu-direction': 'left',
         'sub-menu': [
             {
-                'name': 'Print Progress Bar',//{{{
-                'snippet': [
-                    "from tqdm.notebook import tqdm",
-                    "def print_progress_bar(x):",
-                    "    print('\\r', end='')",
-                    "    print('Progress: {}%:'.format(x), '%s%s' % ('▋'*(x//2), '.'*((100-x)//2)), end='')",
-                    "    sys.stdout.flush()",
-                    ""
+                'name': 'Common',
+                'sub-menu': [
+                    {
+                        'name': 'Json Encoder',
+                        'snippet': [
+                            "import json, functools, datetime",
+                            "class __JsonEncoder(json.JSONEncoder):",
+                            "    def default(self, obj):",
+                            "        if isinstance(obj, (datetime.datetime, datetime.timedelta)):",
+                            "            return '{}'.format(obj)",
+                            "        else:",
+                            "            return json.JSONEncoder.default(self, obj)",
+                            "",    
+                            "json.dumps = functools.partial(json.dumps, cls=__JsonEncoder)",
+                            ""
+                        ]
+                    },
+                    {
+                        'name': 'Print Progress Bar',//{{{
+                        'snippet': [
+                            "from tqdm.notebook import tqdm",
+                            "def print_progress_bar(x):",
+                            "    print('\\r', end='')",
+                            "    print('Progress: {}%:'.format(x), '%s%s' % ('▋'*(x//2), '.'*((100-x)//2)), end='')",
+                            "    sys.stdout.flush()",
+                            ""
+                        ]
+                    },//}}}
+                    {
+                        'name': 'Random Seed',//{{{
+                        'snippet': [
+                            "def  set_rng_seed(x):",
+                            "    try:",
+                            "        random.seed(x)",
+                            "        np.random.seed(x)",
+                            "        torch.manual_seed(x)",
+                            "    except: ",
+                            "        pass",
+                            "",
+                            "set_rng_seed(888)",
+                            ""
+                        ]
+                    },//}}}
+                    {
+                        'name': 'Image to Base64',//{{{
+                        'snippet': [
+                            "def img2bytes(x, width=None, height=None):",
+                            "    if isinstance(x, bytes):",
+                            "        return x",
+                            "",
+                            "    if isinstance(x, str):",
+                            "        if os.path.isfile(x):",
+                            "            x = PIL.Image.open(x).convert('RGB')",
+                            "        else:",
+                            "            import cairosvg",
+                            "            with io.BytesIO() as fw:",
+                            "                cairosvg.svg2png(bytestring=x, write_to=fw,",
+                            "                        output_width=width, output_height=height)",
+                            "                return fw.getvalue()",
+                            "",
+                            "    from matplotlib.figure import Figure",
+                            "    if isinstance(x, Figure):",
+                            "        with io.BytesIO() as fw:",
+                            "            plt.savefig(fw)",
+                            "            return fw.getvalue()",
+                            "",
+                            "    from torch import Tensor",
+                            "    from torchvision import transforms",
+                            "    from PIL import Image",
+                            "    if isinstance(x, Tensor):",
+                            "        x = transforms.ToPILImage()(x)",
+                            "    elif isinstance(x, np.ndarray):",
+                            "        x = Image.fromarray(x.astype('uint8')).convert('RGB')",
+                            "",
+                            "    if isinstance(x, Image.Image):",
+                            "        if width and height:",
+                            "            x = x.resize((width, height))",
+                            "        with io.BytesIO() as fw:",
+                            "            x.save(fw, format='PNG')",
+                            "            return fw.getvalue()",
+                            "    raise NotImplementedError(type(x))",
+                            "",
+                            "def img2b64(x):",
+                            "    return base64.b64encode(img2bytes(x)).decode()",
+                            ""
+                        ]
+                    },//}}}
                 ]
-            },//}}}
-            {
-                'name': 'Random Seed',//{{{
-                'snippet': [
-                    "def  set_rng_seed(x):",
-                    "    try:",
-                    "        random.seed(x)",
-                    "        np.random.seed(x)",
-                    "        torch.manual_seed(x)",
-                    "    except: ",
-                    "        pass",
-                    "",
-                    "set_rng_seed(888)",
-                    ""
-                ]
-            },//}}}
-            {
-                'name': 'Image to Base64',//{{{
-                'snippet': [
-                    "def img2bytes(x, width=None, height=None):",
-                    "    if isinstance(x, bytes):",
-                    "        return x",
-                    "",
-                    "    if isinstance(x, str):",
-                    "        if os.path.isfile(x):",
-                    "            x = PIL.Image.open(x).convert('RGB')",
-                    "        else:",
-                    "            import cairosvg",
-                    "            with io.BytesIO() as fw:",
-                    "                cairosvg.svg2png(bytestring=x, write_to=fw,",
-                    "                        output_width=width, output_height=height)",
-                    "                return fw.getvalue()",
-                    "",
-                    "    from matplotlib.figure import Figure",
-                    "    if isinstance(x, Figure):",
-                    "        with io.BytesIO() as fw:",
-                    "            plt.savefig(fw)",
-                    "            return fw.getvalue()",
-                    "",
-                    "    from torch import Tensor",
-                    "    from torchvision import transforms",
-                    "    from PIL import Image",
-                    "    if isinstance(x, Tensor):",
-                    "        x = transforms.ToPILImage()(x)",
-                    "    elif isinstance(x, np.ndarray):",
-                    "        x = Image.fromarray(x.astype('uint8')).convert('RGB')",
-                    "",
-                    "    if isinstance(x, Image.Image):",
-                    "        if width and height:",
-                    "            x = x.resize((width, height))",
-                    "        with io.BytesIO() as fw:",
-                    "            x.save(fw, format='PNG')",
-                    "            return fw.getvalue()",
-                    "    raise NotImplementedError(type(x))",
-                    "",
-                    "def img2b64(x):",
-                    "    return base64.b64encode(img2bytes(x)).decode()",
-                    ""
-                ]
-            },//}}}
+            },
             '---',
             {
                 'name': 'Display Function(*)',//{{{
