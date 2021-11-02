@@ -38,7 +38,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "        if x[0] == '/':",
                     "            with open(x) as fr:",
                     "                x = fr.read()",
-                    "        elif 'github' in x or 'gitee' in x:
+                    "        elif 'github' in x or 'gitee' in x:",
                     "            if x.startswith('import '):",
                     "                x = x[7:]",
                     "            if x.startswith('https://'):",
@@ -98,6 +98,19 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "",
                         ]
                     },//}}}
+		    {
+			'name': 'Kill Process', //{{{
+			'snippet': [
+			    "@register_line_magic",
+			    "def killall(line):",
+			    "    pid_list=!ps -eo pid,command | grep $line  | grep -v 'grep' | cut -c1-6",
+			    "    for pid in pid_list:",
+			    "        print(pid)",
+			    "        pid = pid.strip()",
+			    "        !kill -9 $pid",
+			    ""
+			 ]
+		    },//}}}
                     '---',
                     {
                         'name': 'Html Display(*)',//{{{
