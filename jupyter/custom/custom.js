@@ -105,7 +105,6 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
 			    "def killall(line):",
 			    "    pid_list=!ps -eo pid,command | grep $line  | grep -v 'grep' | cut -c1-6",
 			    "    for pid in pid_list:",
-			    "        print(pid)",
 			    "        pid = pid.strip()",
 			    "        !kill -9 $pid",
 			    ""
