@@ -20,7 +20,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "%config InlineBackend.figure_format='retina'",
                     "%config IPCompleter.use_jedi = False",
                     "",
-                    "from IPython.display import display, Markdown, HTML, Image, Javascript",
+                    "from IPython.display import display, Markdown, HTML, IFrame, Image, Javascript",
                     "from IPython.core.magic import register_line_cell_magic, register_line_magic, register_cell_magic",
                     "display(HTML('<style>.container { width:%d%% !important; }</style>' % 90))",
                     "",
