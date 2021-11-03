@@ -1,9 +1,9 @@
 {
   "load_extensions": {
-    "jupyterlab-plotly/extension": true,
     "jupyter-js-widgets/extension": true,
     "nbextensions_configurator/config_menu/main": true,
     "contrib_nbextensions_help_item/main": true,
+    "jupyterlab-plotly/extension": true,
     "plotlywidget/extension": true,
     "vim_binding/vim_binding": true,
     "execute_time/ExecuteTime": false,
@@ -77,10 +77,6 @@
     "Header": false,
     "Toolbar": true
   },
-  "Freeze": {
-    "readonly_color": "#21d709",
-    "frozen_color": "#9320df"
-  },
   "notify": {
     "sticky": false
   },
@@ -106,5 +102,8 @@
   },
   "printview_nbconvert_options": "--to html",
   "gist_it_personal_access_token": "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",
-  "gist_it_default_to_public": true
+  "gist_it_default_to_public": true,
+  "Freeze": {
+    "readonly_color": "#f7f7f7"
+  }
 }
