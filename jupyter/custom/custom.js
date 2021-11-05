@@ -219,7 +219,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                             "    logger = logging.getLogger(name)",
                             "    logger.setLevel(level)",
                             "    #  %(filename)s",
-                            "    formatter = logging.Formatter('%(asctime)s - %(filename)s - %(name)s - %(levelname)s - %(message)s')",
+                            "    formatter = logging.Formatter('%(asctime)s - %(funcName)s:%(lineno)d - %(name)s - %(levelname)s - %(message)s')",
                             "    if console:",
                             "        console = logging.StreamHandler()",
                             "        console.setLevel(level)",
