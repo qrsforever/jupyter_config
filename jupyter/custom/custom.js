@@ -24,11 +24,10 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "from IPython.core.magic import register_line_cell_magic, register_line_magic, register_cell_magic",
                     "# display(HTML('<style>.container { width:%d%% !important; }</style>' % 90))",
                     "",
-                    "import sys, os, io, time, random, math",
+                    "import sys, os, io, logging, time, random, math",
                     "import json, base64, requests, shutil",
-                    "import os.path as osp",
-                    "import numpy as np",
                     "import argparse, shlex, signal",
+                    "import numpy as np",
                     "",
                     "argparse.ArgumentParser.exit = lambda *arg, **kwargs: _IGNORE_",
                     "",
@@ -213,6 +212,27 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
             {
                 'name': 'Common',
                 'sub-menu': [
+                    {
+                        'name': 'Logging',
+                        'snippet': [
+                            "def get_logger(name, level=logging.DEBUG, filepath=None, console=True):",
+                            "    logger = logging.getLogger(name)",
+                            "    logger.setLevel(level)",
+                            "    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')",
+                            "    if console:",
+                            "        console = logging.StreamHandler()",
+                            "        console.setLevel(level)",
+                            "        console.setFormatter(formatter)",
+                            "        logger.addHandler(console)",
+                            "    if filepath:",
+                            "        filelog = logging.FileHandler(filepath)",
+                            "        filelog.setLevel(level)",
+                            "        filelog.setFormatter(formatter)",
+                            "        logger.addHandler(filelog)",
+                            "    return logger",
+                            ""
+                        ]
+                    },
                     {
                         'name': 'Json Encoder',
                         'snippet': [
