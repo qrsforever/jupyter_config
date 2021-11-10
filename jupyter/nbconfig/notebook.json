@@ -104,6 +104,7 @@
   "gist_it_personal_access_token": "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",
   "gist_it_default_to_public": true,
   "Freeze": {
-    "readonly_color": "#f7f7f7"
+    "readonly_color": "#f7f7f7",
+    "frozen_color": "#c7f0e8"
   }
 }
