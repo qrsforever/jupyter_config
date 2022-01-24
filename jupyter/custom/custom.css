@@ -2,6 +2,11 @@
     width:95% !important;
 }
 
+textarea, input { 
+    font-family: monospace; 
+}
+
+
 /*for the error , connecting & renaming window*/
 
 [dir="rtl"] .modal-footer {
