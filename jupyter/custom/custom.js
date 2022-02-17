@@ -53,7 +53,7 @@ require(["nbextensions/snippets_menu/main"], function (snippets_menu) {
                     "            elif x.startswith('github.com'):",
                     "                x = x.replace('github.com', 'raw.githubusercontent.com')",
                     "                mod = x.split('/')",
-                    "                for s in ['main', 'master']:",
+                    "                for s in ['/main/', '/master/']:",
                     "                    x = 'https://' + '/'.join(mod[:3]) + s + '/'.join(mod[-3:])",
                     "                    x = requests.get(x)",
                     "                    if x.status_code == 200:",
